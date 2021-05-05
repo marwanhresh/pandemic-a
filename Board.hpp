@@ -1,3 +1,4 @@
+  
 #include<iostream>
 #ifndef BOARD_HPP
 #define BOARD_HPP
@@ -18,6 +19,7 @@ class Board
         void discover_cure(int);
         int is_discovered_cure(int);
         friend ostream& operator<<(ostream&,Board&);
+        void remove_cures();
     private:
         int* cities_health;
         int* cities_labs;
