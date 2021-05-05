@@ -123,11 +123,9 @@ ostream& operator<<( ostream &output,Board&) {
          output <<"Nothing"<<endl;
          return output;
 }
-
-
-
-
-
-
+void Board::remove_cures(){
+    for(int i=0;i<4;i++)
+        cures[i]=0;
+}
 
 
