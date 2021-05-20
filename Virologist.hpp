@@ -1,14 +1,16 @@
-#ifndef VIROLOGIST_H
-#define VIROLOGIST_H
+#ifndef UNTITLED5_VIROLOGIST_HPP
+#define UNTITLED5_VIROLOGIST_HPP
+
 #include "Player.hpp"
-namespace pandemic{
-class Virologist:public Player
-{
+#include "Board.hpp"
+#include "City.hpp"
+namespace pandemic {
+    class Virologist : public Player {
     public:
-        Virologist(Board&,int);
-        virtual ~Virologist();
-        Player& treat(int c)override;
-        string role()override;
-};
+        Virologist(Board &board, City city) ;
+        Player &treat(City city) override;
+
+    };
+
 }
-#endif // VIROLOGIST_H
+#endif //UNTITLED5_VIROLOGIST_HPP
