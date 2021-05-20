@@ -1,10 +1,14 @@
-#ifndef COLOR_H
-#define COLOR_H
 
+#ifndef UNTITLED5_COLOR_HPP
+#define UNTITLED5_COLOR_HPP
 
-enum class Color
-{
-    Blue,Black,Red,Yellow
-};
+namespace pandemic {
+    enum Color {
+        Yellow,
+        Red,
+        Black,
+        Blue
+    };
+}
 
-#endif // COLOR_H
+#endif //UNTITLED5_COLOR_HPP
