@@ -1,42 +1,51 @@
-#include "Medic.hpp"
-#include "MyException.h"
-using namespace pandemic;
-Medic::Medic(Board& b,int city):Player(b,city)
-{
-}
+//
+//
 
-Medic::~Medic()
-{
-    //dtor
-}
-Player& Medic::treat(int c){
-    if(board.get_health(current_city)==0||c!=current_city)
-        throw MyException("there is no infection on the city or trying to treat not current city");
-    while(board.get_health(current_city)>0)
-        return Player::treat(c);
-}
-Player& Medic::fly_direct(int c){
-    Player& res=Player::fly_direct(c);
-    if(board.get_health(current_city)>0)
-        treat(current_city);
-    return res;
-}
-void Medic::fly_charter(int c){
-    Player::fly_charter(c);
-    if(board.get_health(current_city)>0)
-        treat(current_city);
-}
-void Medic::fly_shuttle(int c){
-    Player::fly_shuttle(c);
-    if(board.get_health(current_city)>0)
-        treat(current_city);
-}
-Player& Medic::drive(int c){
-    Player &s=Player::drive(c);
-    if(board.get_health(current_city)>0)
-        treat(current_city);
-    return s;
-}
-std::string Medic::role(){
-    return "Medic";
+#include "Medic.hpp"
+
+using namespace std;
+namespace pandemic{
+
+
+    Medic::Medic(Board &board, City city) : Player(board, city) {
+        this->_role="Medic";
+    }
+
+    Player &Medic::fly_direct(City city) {
+        Player::fly_direct(city);
+        if(this->board.is_there_cure(Board::city_color(this->curr_city))){
+            this->board[city]=0;
+        }
+        return *this;
+    }
+
+    Player &Medic::fly_charter(City city) {
+        Player::fly_charter(city);
+        if(this->board.is_there_cure(Board::city_color(this->curr_city))){
+            this->board[city]=0;
+        }
+        return *this;
+    }
+
+    Player &Medic::fly_shuttle(City city) {
+        Player::fly_shuttle(city);
+        if(this->board.is_there_cure(Board::city_color(this->curr_city))){
+            this->board[city]=0;
+        }
+        return *this;
+    }
+
+    Player &Medic::treat(City city) {
+        Player::treat(city);
+        this->board[city]=0;
+        return *this;
+    }
+
+    Player &Medic::drive(City city) {
+        Player::drive(city);
+        if(this->board.is_there_cure(Board::city_color(this->curr_city))){
+            this->board[city]=0;
+        }
+        return *this;
+    }
 }
