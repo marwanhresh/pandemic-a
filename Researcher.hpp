@@ -1,14 +1,15 @@
-#ifndef RESEARCHER_H
-#define RESEARCHER_H
+#ifndef UNTITLED5_RESEARCHER_HPP
+#define UNTITLED5_RESEARCHER_HPP
+
 #include "Player.hpp"
-namespace pandemic{
-class Researcher:public Player
-{
+#include "Board.hpp"
+namespace pandemic {
+    class Researcher : public Player {
     public:
-        Researcher(Board&,int);
-        virtual ~Researcher();
-        void discover_cure(Color);
-        string role();
-};
+        Researcher(Board &board, City city);
+        Player &discover_cure(pandemic::Color color) override;
+
+    };
 }
-#endif // RESEARCHER_H
+
+#endif //UNTITLED5_RESEARCHER_HPP
