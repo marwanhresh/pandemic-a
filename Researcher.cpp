@@ -1,26 +1,32 @@
 #include "Researcher.hpp"
-#include "MyException.h"
-using namespace pandemic;
-Researcher::Researcher(Board& b,int city):Player(b,city)
-{
-    //ctor
-}
 
-Researcher::~Researcher()
-{
-    //dtor
-}
-void Researcher::discover_cure(Color color){
-    if(count_colors[static_cast<int>(color) ]>=5){
-        board.discover_cure(static_cast<int>(color) );
-        for(int i=0,c=0;i<48&&c<5;i++)
-            if( board.get_color(cards[i])==static_cast<int>(color) ){
-                drop_card(cards[i]);
-                c++;
+using namespace std;
+namespace pandemic{
+    Researcher::Researcher(Board &board, City city): Player(board, city) {
+        this->_role="Researcher";
+    }
+
+    Player &Researcher::discover_cure(pandemic::Color color) {
+        if(this->board.is_there_cure(color))
+        {
+            return *this;
+        }
+        if(this->number_of_cards_by_color[color]<num_five) {//there is not enough cards
+                throw invalid_argument("there is not enough cards");
+        }
+        unordered_set<City> temp;
+        for(const auto &v: this->player_cards){
+            if(pandemic::Board::city_color(v)==color){
+                this->number_of_cards_by_color[color]--;
+                temp.insert(v);
             }
-    }else
-        throw MyException("don't have a enough cards to discover cure");
-}
-string Researcher::role(){
-    return "Researcher";
+        }
+        for(const auto &v : temp){
+            this->player_cards.erase(v);
+        }
+        this->board.set_cure(color);
+        return *this;
+    }
+
+
 }
