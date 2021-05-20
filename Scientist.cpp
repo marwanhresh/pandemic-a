@@ -1,26 +1,35 @@
 #include "Scientist.hpp"
-#include "MyException.h"
-using namespace pandemic;
-Scientist::Scientist(Board& b,int city,int num=4):Player(b,city)
-{
-    number_of_cards_to_discover=num;
-}
+using namespace std;
 
-Scientist::~Scientist()
-{
-}
+namespace pandemic{
 
-void Scientist::discover_cure(Color color){
-    if(board.is_lab(current_city)&&count_colors[static_cast<int>(color)]>=number_of_cards_to_discover){
-        board.discover_cure(static_cast<int>(color) );
-        for(int i=0,c=0;i<48&&c<number_of_cards_to_discover;i++)
-            if( board.get_color(cards[i])==static_cast<int>(color) ){
-                drop_card(cards[i]);
-                c++;
+    Scientist::Scientist(Board &board, City city, int i): Player(board, city) {
+        this->_role="Scientist";
+        this->n=i;
+    }
+
+    Player &Scientist::discover_cure(pandemic::Color color) {
+        if(this->board.is_there_cure(color))
+        {
+            return *this;
+        }
+        if(!this->board.is_research_station(this->curr_city)){//if there is no research station
+            throw invalid_argument("there is no Research station in this city");
+        }
+        if(this->number_of_cards_by_color[color]<this->n) {//there is not enough cards
+                throw invalid_argument("there is not enough cards");
+        }
+        unordered_set<City> temp;
+        for(const auto &v: this->player_cards){
+            if(pandemic::Board::city_color(v)==color){
+                temp.insert(v);
+                this->number_of_cards_by_color[color]--;
             }
-    }else
-        throw MyException("don't have enough cards to discover cure OR there is no lab in the city");
-}
-string Scientist::role(){
-    return "Scientist";
+        }
+        for(const auto &v : temp){
+            this->player_cards.erase(v);
+        }
+        this->board.set_cure(color);
+        return *this;
+    }
 }
