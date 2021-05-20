@@ -1,20 +1,14 @@
 #include "OperationsExpert.hpp"
-#include "MyException.h"
-using namespace pandemic;
-OperationsExpert::OperationsExpert(Board &b,int city):Player(b,city)
-{
+using namespace std;
+namespace pandemic{
 
-}
 
-OperationsExpert::~OperationsExpert()
-{
-}
-void OperationsExpert::build(){
-    if(board.is_lab(current_city))
-        throw MyException("already have a lab in current city");
-    else
-        board.build(current_city);
-}
-string OperationsExpert::role(){
-    return "OperationsExpert";
+    OperationsExpert::OperationsExpert(Board &board, City city) : Player(board, city) {
+        this->_role="OperationsExpert";
+    }
+
+    Player &OperationsExpert::build() {
+        this->board.add_research_station(this->curr_city);
+        return *this;
+    }
 }
