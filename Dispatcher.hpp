@@ -1,14 +1,16 @@
-#ifndef DISPATCHER_H
-#define DISPATCHER_H
+#ifndef UNTITLED5_DISPATCHER_HPP
+#define UNTITLED5_DISPATCHER_HPP
+
 #include "Player.hpp"
-namespace pandemic{
-class Dispatcher:public Player
-{
+#include "Board.hpp"
+namespace pandemic {
+    class Dispatcher : public Player {
     public:
-        Dispatcher(Board&,int);
-        virtual ~Dispatcher();
-        Player& fly_direct(int);
-        string role();
-};
+        Dispatcher(Board &board, City city);
+        Player &fly_direct(City city) override;
+
+    };
 }
-#endif // DISPATCHER_H
+
+
+#endif //UNTITLED5_DISPATCHER_HPP
