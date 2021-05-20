@@ -1,31 +1,46 @@
-#ifndef PLAYER_HPP
-#define PLAYER_HPP
+#ifndef UNTITLED5_PLAYER_HPP
+#define UNTITLED5_PLAYER_HPP
+#include <iostream>
+#include "City.hpp"
 #include "Color.hpp"
-#include <string>
 #include "Board.hpp"
-using namespace std;
-namespace pandemic{
-class Player
-{
-    public:
-        Player(Board&,int);
-        virtual ~Player();
+#include <unordered_set>
+#include <unordered_map>
+#include<limits>
+
+
+namespace pandemic {
+    class Player {
     protected:
-        int* cards;
-        int* count_colors;
-        int current_city;
+        City curr_city;
+        std::unordered_set<City> player_cards;
+        std::unordered_map<Color, int> number_of_cards_by_color;
+        Board &board;
+        std::string _role;
+
     public:
-        Board& board;
-        virtual Player& drive(int);
-        virtual Player& fly_direct(int);
-        virtual void fly_charter(int);
-        virtual void fly_shuttle(int);
-        virtual void build();
-        virtual void discover_cure(Color);
-        virtual Player& treat(int);
-        virtual string role()=0;
-        Player& take_card(int);
-        void drop_card(int);
-};
+        Player(pandemic::Board &board, City city);
+
+        virtual Player &fly_direct(City city);
+
+        virtual Player &fly_charter(City city);
+
+        virtual Player &fly_shuttle(City city);
+
+        virtual Player& build();
+
+        virtual Player &discover_cure(pandemic::Color color);
+
+        virtual Player &treat(City city);
+        Player& take_card(pandemic::City city);
+
+        virtual Player& drive(City city);
+        std::string &role();
+        void remove_cards();
+
+
+    };
+    const int num_five=5;
+
 }
-#endif
+#endif //UNTITLED5_PLAYER_HPP
