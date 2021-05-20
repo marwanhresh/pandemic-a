@@ -1,26 +1,27 @@
 #include "Virologist.hpp"
-using namespace pandemic;
-Virologist::Virologist(Board& b,int city):Player(b,city)
-{
 
-}
 
-Virologist::~Virologist()
-{
+using namespace std;
+namespace pandemic{
 
-}
-Player& Virologist::treat(int c){
-    if(c!=current_city&&cards[c]==1&&board.get_health(c)!=0&&board.is_discovered_cure(board.get_color(c))){
-        board[c]=0;
-        drop_card(c);
-    }else if(c!=current_city&&cards[c]==1&&board.get_health(c)!=0){
-        board[c]=board[c]-1;
-        drop_card(c);
-    }else{
-        return Player::treat(c);
+
+    Virologist::Virologist(Board &board, City city) : Player(board, city) {
+        this->_role="Virologist";
     }
-    return *this;
-}
-string Virologist::role(){
-    return "Virologist";
+
+    Player &Virologist::treat(City city) {
+        if(board[city]==0){
+            throw invalid_argument("Disease is already 0");
+        }
+        if(this->board.is_there_cure(Board::city_color(city))){
+            board[city]=0;
+        }else if(city==curr_city){
+            Player::treat(city);
+        }else if(this->player_cards.find(city)==this->player_cards.end()){
+            throw invalid_argument("U don't have a valid card");
+        } else{
+            board[city]--;
+        }
+        return *this;
+    }
 }
