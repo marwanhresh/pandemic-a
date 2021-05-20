@@ -1,15 +1,19 @@
-#ifndef GENESPLICER_H
-#define GENESPLICER_H
+#ifndef UNTITLED5_GENESPLICER_HPP
+#define UNTITLED5_GENESPLICER_HPP
+
+#include<limits>
 #include "Player.hpp"
-#include <string>
-namespace pandemic{
-class GeneSplicer:public Player
-{
+#include "Board.hpp"
+namespace pandemic {
+    class GeneSplicer : public Player {
     public:
-        GeneSplicer(Board& b,int);
-        virtual ~GeneSplicer();
-        void discover_cure(Color);
-        std::string role();
-};
+        GeneSplicer(Board &board, City city);
+        Player &discover_cure(pandemic::Color color) override;
+
+
+    };
 }
-#endif // GENESPLICER_H
+
+
+
+#endif //UNTITLED5_GENESPLICER_HPP
