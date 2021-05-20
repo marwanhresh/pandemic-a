@@ -1,15 +1,18 @@
-#ifndef FIELDDOCTOR_H
-#define FIELDDOCTOR_H
+#ifndef UNTITLED5_FIELDDOCTOR_HPP
+#define UNTITLED5_FIELDDOCTOR_HPP
+
 #include "Player.hpp"
-#include <string>
-namespace pandemic{
-class FieldDoctor:public Player
-{
+#include "Board.hpp"
+
+namespace pandemic {
+    class FieldDoctor : public Player {
     public:
-        FieldDoctor(Board&,int);
-        virtual ~FieldDoctor();
-        Player& treat(int);
-        std::string role();
-};
+        FieldDoctor(Board &board, City city);
+        Player &treat(City city) override;
+
+
+    };
 }
-#endif // FIELDDOCTOR_H
+
+
+#endif //UNTITLED5_FIELDDOCTOR_HPP
