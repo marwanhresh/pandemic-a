@@ -1,30 +1,36 @@
+
 #include "GeneSplicer.hpp"
-#include "MyException.h"
-using namespace pandemic;
-GeneSplicer::GeneSplicer(Board& b,int c):Player(b,c)
-{
+#include<limits>
 
-}
 
-GeneSplicer::~GeneSplicer()
-{
+using namespace std;
+namespace pandemic{
 
-}
-void GeneSplicer::discover_cure(Color color){
-    int c=0;
-    for(int i=0;i<48;i++)
-        if(cards[i]==1)
-            c++;
-    if(board.is_lab(current_city)&&c>=5){
-        board.discover_cure(static_cast<int>(color));
-        for(int i=0,c2=0;i<48&&c<5;i++)
-            if( cards[i]==1){
-                drop_card(cards[i]);
-                c2++;
+    GeneSplicer::GeneSplicer(Board &board, City city): Player(board, city) {
+        this->_role="GeneSplicer";
+    }
+
+    Player &GeneSplicer::discover_cure(pandemic::Color color) {
+        if(this->board.is_there_cure(color))
+        {
+            return *this;
+        }
+        if(!this->board.is_research_station(this->curr_city)) {//if there is no research station
+            throw invalid_argument("there is no Research station in this city");
+        }
+        if(this->player_cards.size()<num_five) {//there is not enough cards
+                throw invalid_argument("there is not enough cards");
             }
-    }else
-        throw MyException("don't have enough cards to discover a cure or there is no lab in the city");
-}
-std::string GeneSplicer::role(){
-    return "GeneSplicer";
+        unordered_set<City> temp;
+        for(const auto &v: this->player_cards){
+                this->number_of_cards_by_color[Board::city_color(v)]--;
+                temp.insert(v);
+            }
+        for(const auto &v: temp) {
+            this->player_cards.erase(v);
+        }
+        this->board.set_cure(color);
+        return *this;
+
+    }
 }
