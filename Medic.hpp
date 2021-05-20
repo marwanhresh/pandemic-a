@@ -1,19 +1,19 @@
-#ifndef MEDIC_H
-#define MEDIC_H
+#ifndef UNTITLED5_MEDIC_HPP
+#define UNTITLED5_MEDIC_HPP
+
 #include "Player.hpp"
-#include <string>
-namespace pandemic{
-class Medic:public Player
-{
+#include "Board.hpp"
+namespace pandemic {
+    class Medic : public Player {
     public:
-        Medic(Board&,int);
-        virtual ~Medic();
-        Player& treat(int);
-        Player& fly_direct(int);
-        void fly_charter(int);
-        void fly_shuttle(int);
-        Player& drive(int);
-        std::string role();
-};
+        Medic(Board &board, City city);
+
+        Player &fly_direct(City city) override;
+        Player &fly_charter(City city) override;
+        Player &fly_shuttle(City city) override;
+        Player &treat(City city) override;
+        Player& drive(City city) override;
+    };
 }
-#endif // MEDIC_H
+
+#endif //UNTITLED5_MEDIC_HPP
