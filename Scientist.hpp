@@ -1,16 +1,17 @@
-#ifndef SCIENTIST_H
-#define SCIENTIST_H
+#ifndef UNTITLED5_SCIENTIST_HPP
+#define UNTITLED5_SCIENTIST_HPP
+
 #include "Player.hpp"
-namespace pandemic{
-class Scientist:public Player
-{
-    public:
-        Scientist(Board&,int,int);
-        virtual ~Scientist();
-        void discover_cure(Color);
-        string role();
+#include "Board.hpp"
+namespace pandemic {
+    class Scientist : public Player {
     private:
-        int number_of_cards_to_discover;
-};
+        int n;
+    public:
+        Scientist(Board &board, City city, int i);
+        Player &discover_cure(pandemic::Color color) override;
+
+    };
 }
-#endif // SCIENTIST_H
+
+#endif //UNTITLED5_SCIENTIST_HPP
